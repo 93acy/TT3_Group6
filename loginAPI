@@ -1,67 +1,26 @@
-import { useState } from 'react'
+  // Fetch Name
+  const fetchUsers = async () => {
+    const res = await fetch('http://localhost:5000/users')
+    const data = await res.json()
 
-const AddUser = ({ onAdd }) => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [pw, setPW] = useState('')
-
-
-  const onSubmit = (e) => {
-    e.preventDefault()
-
-    if (!name) {
-      alert('Please add a name')
-      return
-    }
-    if (!pw) {
-        alert('Please add a password')
-        return
-      }
-    if (!email) {
-        alert('Please add a email')
-        return
-    }      
-
-    onAdd({ name, email, pw })
-
-    setName('')
-    setEmail('')
-    setPW('')
+    return data
   }
 
-  return (
-    <form className='add-form' onSubmit={onSubmit}>
-      <div className='form-control'>
-        <label>Task</label>
-        <input
-          type='name'
-          placeholder='Add Name'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div className='form-control'>
-        <label>Day & Time</label>
-        <input
-          type='text'
-          placeholder='Add Day & Time'
-          value={day}
-          onChange={(e) => setDay(e.target.value)}
-        />
-      </div>
-      <div className='form-control form-control-check'>
-        <label>Set Reminder</label>
-        <input
-          type='checkbox'
-          checked={reminder}
-          value={reminder}
-          onChange={(e) => setReminder(e.currentTarget.checked)}
-        />
-      </div>
-
-      <input type='submit' value='Save Task' className='btn btn-block' />
-    </form>
-  )
-}
-
-export default AddUser
+    // Add Task
+    const addUser = async (user) => {
+      const res = await fetch('http://localhost:5000/users', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+  
+      const data = await res.json()
+  
+      setUser([...user, data])
+  
+      // const id = Math.floor(Math.random() * 10000) + 1
+      // const newTask = { id, ...task }
+      // setTasks([...tasks, newTask])
+    }

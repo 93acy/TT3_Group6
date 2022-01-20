@@ -1,3 +1,4 @@
+import resource
 from flask import request
 from flask_restx import Resource
 from werkzeug.exceptions import Unauthorized
@@ -31,15 +32,12 @@ class Login(Resource):
         else:
             raise Unauthorized('username or password not provided')
 
-@api.route('/get_post')
+@api.route('/get-post')
 class GetAllPosts(Resource):
     @api.doc(responses={200: 'OK', 400: 'Errors'})
-    @login_required
-    def get(self, payload):
+    def get(self):
         a = Post.query.all()
         list =[]
         for x in a:
             list.append(x.to_dict())
-       
         return list, 200
-        

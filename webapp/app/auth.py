@@ -58,7 +58,6 @@ def login_required(f):
         data = request.headers['Authorization']
         token = str.replace(data, 'Bearer ','')
         try:
-            print(token)
             payload = validate_token(token)
         except Exception as e:
             raise Unauthorized(str(e))

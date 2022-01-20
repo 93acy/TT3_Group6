@@ -1,14 +1,14 @@
-  // Fetch Name
-  const fetchTask = async ({id, username, password}) => {
-    const res = await fetch(`http://localhost:5000/users/${id}/${username}/${password}`)
+  // Fetch User
+  const fetchUser = async ({username, password}) => {
+    const res = await fetch(`http://localhost:5000/login/${username}${password}`)
     const data = await res.json()
 
     return data
   }
 
-    // Add Task
+    // Add User
     const addUser = async (user) => {
-      const res = await fetch('http://localhost:5000/users', {
+      const res = await fetch('http://localhost:5000/login', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -19,8 +19,5 @@
       const data = await res.json()
   
       setUser([...user, data])
-  
-      // const id = Math.floor(Math.random() * 10000) + 1
-      // const newTask = { id, ...task }
-      // setTasks([...tasks, newTask])
+
     }

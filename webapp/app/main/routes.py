@@ -1,7 +1,8 @@
+from importlib.machinery import FrozenImporter
 import resource
 from flask import request
 from flask_restx import Resource
-from werkzeug.exceptions import Unauthorized
+from werkzeug.exceptions import Unauthorized, Forbidden
 
 from app import db
 from app.main import api
@@ -77,3 +78,34 @@ class CreatePost(Resource):
         session.add(lp)
         session.commit()
         return {"message": "post created", "post_id": p.Post_ID}, 201
+
+@api.route('/edit-post/<id>')
+class EditPost(Resource):
+    @api.doc(params={'id': 'Post ID'}, responses={200: 'OK', 400: 'Errors'})
+    @login_required
+    def patch(payload, self, id):
+        current_user_id = payload['User_ID']
+        data = request.json
+        
+        session = db.session()
+        p = session.query(Post).filter_by(Post_ID=id).first()
+        lp = LikedPost.query.filter_by(Post_ID=id).first()
+
+        if lp.User_ID != current_user_id:
+            raise Forbidden('not allowed to edit post that belong to someone else')
+
+        if 'Post_Title' not in data and 'Post_Description' not in data and 'Post_image' not in data:
+            return {"message": "Post_Title, Post_Descriptionor Post_image not provided"}, 400
+
+        if p.Post_Title != data['Post_Title']:
+            p.Post_Title = data['Post_Title']
+
+        if p.Post_Description != data['Post_Description']:
+            p.Post_Title = data['Post_Description']
+
+        if p.Post_image != data['Post_image']:
+            p.Post_Title = data['Post_image']
+
+        session.commit()
+
+        return {"message": "post updated", "post_id": p.Post_ID}, 200

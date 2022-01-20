@@ -1,6 +1,10 @@
 # flask setup
-pyjwt
-flask_restx
+flask
+flask-sqlalchemy
+flask-marshmallow
+marshmallow-sqlalchemy
+
 requests
 jsonschema
-flask-sqlalchemy
+pyjwt
+flask-restx

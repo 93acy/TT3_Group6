@@ -27,7 +27,7 @@ class Login(Resource):
             valid, user_id = login(data['username'], data['password'])
             if valid:
                 token = generate_token(data['username'], user_id)
-                return {"token": token}, 200
+                return {"token": token, "boolean" : True}, 200
             else:
                 raise Unauthorized('invalid username or password')
         else:

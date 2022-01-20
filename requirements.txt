@@ -1,0 +1,6 @@
+# flask setup
+pyjwt
+flask_restx
+requests
+jsonschema
+flask-sqlalchemy

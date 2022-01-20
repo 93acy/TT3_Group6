@@ -61,7 +61,7 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.Post_ID)
 
-class LikedPost:
+class LikedPost(db.Model):
     User_ID = db.Column(db.Integer, primary_key=True)
     Post_ID = db.Column(db.Integer, primary_key=True)
 
@@ -74,7 +74,7 @@ class LikedPost:
     def __repr__(self):
         return '<LikedPost {}, {}>'.format(self.User_ID, self.Post_ID)
 
-class PostComment:
+class PostComment(db.Model):
     Comment_ID = db.Column(db.Integer, primary_key=True)
     User_ID = db.Column(db.Integer)
     Post_ID = db.Column(db.Integer)

@@ -3,9 +3,10 @@ from flask import request
 from flask_restx import Resource
 from werkzeug.exceptions import Unauthorized
 
+from app import db
 from app.main import api
 from app.auth import login, generate_token, login_required
-from app.models import Post
+from app.models import Post, LikedPost
 
 
 @api.route('/health')
@@ -40,4 +41,17 @@ class GetAllPosts(Resource):
         list =[]
         for x in a:
             list.append(x.to_dict())
+        return list, 200
+
+@api.route('/get-user-posts')
+class GetUserPost(Resource):
+    @api.doc(responses={200: 'OK', 400: 'Errors'})
+    @login_required
+    def get(payload, self):
+        current_user_id = payload['User_ID']
+        a = LikedPost.query.filter_by(User_ID=current_user_id)
+        list = []
+        for likedpost in a:
+            p = Post.query.filter_by(Post_ID=likedpost.Post_ID).first()
+            list.append(p.to_dict())
         return list, 200
